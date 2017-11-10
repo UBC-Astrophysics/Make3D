@@ -47,7 +47,7 @@ def invCumZfunk(c,R,a):
 
 
 
-f2,f3,x,y = np.loadtxt("pm_v6_chris.dat", unpack=True,usecols=(0,1,3,4))
+f2,f3,x,y = np.loadtxt("pm_v6_chris.dat.gz", unpack=True,usecols=(0,1,3,4))
 # restrict the King model to lie within a sphere of radius 30000 WFC3 pixels
 rmax=30000
 
