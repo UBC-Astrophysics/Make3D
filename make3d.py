@@ -48,17 +48,24 @@ def invCumZfunk(c,R,a):
 
 
 f2,f3,x,y = np.loadtxt("pm_v6_chris.dat", unpack=True,usecols=(0,1,3,4))
-# restrict the King model to lie within a sphere of radius 3000 WFC3 pixels
-rmax=3000
-# restrict the input stars within a circle of radius 3000 WFC3 pixels
-rmax2d=3000
+# restrict the King model to lie within a sphere of radius 30000 WFC3 pixels
+rmax=30000
+
+# restrict the input stars within a circle of radius 30000 WFC3 pixels
+rmax2d=30000
+
+# restrict the cumulative distribution to within 3000 WFC3 pixels
+rmax2d_fit = 3000
 
 # best fitting King model to the projected distribution - SigmaFunk(R,a)
 a=1050.0
 
 # best fitting King model (restricted to a sphere)
 # to the projected distribution - SigmaFunk2(R,rmax,a)
+#
 a2=1800.0
+#
+a2=1050.0
 
 R=np.hypot(x,y)
 keep=(R<rmax2d)
@@ -70,15 +77,16 @@ y=y[keep]
 R=R[keep]
 Rsort=np.sort(R)
 cumval=np.linspace(1.0/len(Rsort),1,len(Rsort))
+cumval_fit=np.interp(rmax2d_fit,Rsort,cumval)
 
 f3=f3+30.42
 f2=f2+30.42-1.22
 # plot the cumulative projected distribution of stars
-plt.plot(Rsort,cumval,'g')
+plt.plot(Rsort,cumval/cumval_fit,'g')
 
-xx=np.linspace(0,rmax2d,300)
+xx=np.linspace(0,rmax2d_fit,300)
 # plot the best-fitting (by eye) King model
-plt.plot(xx,CumSigmaFunk(xx,a)/CumSigmaFunk(rmax2d,a),'r')
+plt.plot(xx,CumSigmaFunk(xx,a)/CumSigmaFunk(rmax2d_fit,a),'r')
 
 # plot the best-fitting (by eye) restricted King model
 # we have written code to find the values of a2
